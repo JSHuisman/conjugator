@@ -19,7 +19,7 @@ This package carries out two main tasks:
 - estimate_conj_rate() estimates conjugation rates from experimental data
 - estimate_crit_time() reports the critical times
 
-For a walk-through of the most important package functionality, check out the [vignette]().
+For a walk-through of the most important package functionality, check out the [vignette](./vignettes).
 
 ### Contact and citation 
 This package was created by Jana S. Huisman, in collaboration with Fabienne Benz, Sarah J.N. Duxbury, J. Arjan G.M. de Visser, Alex R. Hall, Egil A.J. Fischer, and Sebastian Bonhoeffer.

@@ -11,7 +11,7 @@ Authors@R: c(
 Description: The conjugator package computes plasmid conjugation rates from 
     experimental data. In addition we provide functions for the assessment of critical times,
     and basic growth rate estimation.
-License: file LICENSE
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
