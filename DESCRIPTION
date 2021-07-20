@@ -1,0 +1,24 @@
+Package: conjugator
+Type: Package
+Title: Computes Plasmid Conjugation Rates
+Version: 0.0.0.9000
+Depends: R (>= 3.5.0)
+Imports: 
+Authors@R: c(
+    person("Jana S.", "Huisman", email = "jana.huisman@env.ethz.ch", role = c("cre", "aut")),
+    person("Egil A.J.", "Fischer", email = "E.A.J.Fischer@uu.nl", role = "ctb"),
+    person("Sebastian", "Bonhoeffer", email = "sebastian.bonhoeffer@env.ethz.ch", role = "ctb"))
+Description: The conjugator package computes plasmid conjugation rates from 
+    experimental data. In addition we provide functions for the assessment of critical times,
+    and basic growth rate estimation.
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 2.1.0),
+    ggplot2,
+    tidyr,
+    stats,
+    knitr
+VignetteBuilder: knitr

@@ -1,0 +1,94 @@
+---
+title: "Introduction to Conjugator"
+author: "Jana S. Huisman"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to Conjugator}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
+
+The goal of this package is to help researchers estimate plasmid conjugation rates from liquid culture mating data.
+
+During such an experiment a plasmid-carrying donor population *D* and a recipient population *R* are mixed together for time *t*. When a donor and recipient encounter each other, the donor may transfer its plasmid to the recipient, thereby turning it into a transconjugant at rate *gamma.D* (a conjugation event; adding to the transconjugant population *T*). Transconjugants can also pass their plasmids to recipients, creating further transconjugants at a rate *gamma.T*. 
+
+We thus distinguish two types of conjugation events: **DRT**, in which an interaction with a Donor turns a Recipient into a Transconjugant, and **TRT**, in which an interaction with a Transconjugant turns a Recipient into a Transconjugant.
+
+### Data Example
+In this vignette we will use a toy dataset, meant to reflect the typical output of a conjugation experiment.
+
+```{r setup}
+library(conjugator)
+load('../data/DRT_example.rda')
+DRT_example
+```
+
+### Conjugation Rate Estimation
+Several methods to estimate conjugation rates are implemented in this package. We generally recommend using the SM or ASM method.
+
+To calculate the conjugation rates for each row in the input data, select a method (here "ASM") and run:
+```{r}
+estimate_conj_rate(DRT_example, "ASM")
+```
+One can also run multiple methods at the same time, these will be returned in a "long format" (for ease of use with ggplot).
+
+```{r fig.asp = 0.5, fig.width = 8, out.width = "100%"}
+library(ggplot2)
+result_df <- estimate_conj_rate(DRT_example, c("SM", "ASM", "T_DR"))
+
+ggplot(result_df, aes(y = estimate, x = ID, colour = method)) +
+  geom_point(size = 2) +
+  coord_trans(y = 'log10') +
+  labs(x = 'Sample ID', y = 'Conjugation Rate Estimate', colour = 'Estimation Method')
+```
+Using the pivot_wider function from the tidyr package this can easily be transformed into the perhaps more familiar "wide format".
+
+```{r}
+library(tidyr)
+wide_result_df <- pivot_wider(result_df, id_cols = 'ID', 
+                              names_from = 'method', values_from = 'estimate')
+wide_result_df
+```
+
+### Critical Time Estimation
+The methods to estimate conjugation rates all make assumptions about the relative importance of different processes such as depletion of the recipient population, or the contribution of transconjugants to conjugation. We have derived an estimate for the time until each of these assumptions breaks down. To obtain accurate estimates of the conjugation rates, one should ideally measure prior to the minimum of the three critical times.
+
+```{r}
+load('../data/TRT_example.rda')
+
+estimate_crit_time(DRT_example, TRT_example, tol_factor = 10)
+```
+This function can also be used with a single dataframe that already contains gamma.D and gamma.T values.
+```{r}
+example_data <- cbind(DRT_example[, c('ID', 'psi.D', 'psi.R', 'psi.T', 'D.0', 'R.0')], 
+                      'gamma.D' = c(1e-11, 1e-11, 1e-11), 
+                      'gamma.T' = c(1e-11, 5e-11, 1e-9) )
+
+estimate_crit_time(example_data, TRT = NULL, tol_factor = 10)
+```
+
+### Scanning Critical Times Prior to a TRT Experiment
+Sometimes one might want to know what the impact of higher conjugation rates from transconjugants would be, without running the second experiment (TRT). 
+
+```{r fig.asp = 0.5, fig.width = 8, out.width = "100%"}
+#multiplication factors to try
+gamma_mult_factors <- 10**seq(-2, 5, 1)
+
+scan_result <- scan_crit_time(DRT_example, tol_factor = 10, mult_seq = gamma_mult_factors)
+scan_result
+
+ggplot(scan_result) +
+  geom_point(aes(y = min_tcrit, x = log10(mult_factor))) +
+  facet_wrap(vars(ID)) +
+  labs(x = 'Log ratio between gamma.T and gamma.D', y = 'Minimal Critical Time')
+```
+
+
