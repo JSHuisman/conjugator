@@ -8,9 +8,17 @@ Both of these formulae will cease to be accurate once either the contribution of
 
 ### Installation 
 
+The quickest way to install Conjugator is to use the devtools package:
 ```{r}
+# Make sure you have devtools; this installs the package from CRAN
 install.packages("devtools")
+# Then use devtools to install the conjugator package from github
 devtools::install_github("JSHuisman/conjugator")
+```
+Alternatively, you can also download the Conjugator package locally (select the tar.gz file and save it to your computer) and then run the following:
+```{r}
+# path_to_file indicates where you saved the tar.gz file + full file name and extension
+install.packages("path_to_file", repos = NULL, type = "source")
 ```
 
 ### Usage 
