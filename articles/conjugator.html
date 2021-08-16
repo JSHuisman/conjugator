@@ -81,21 +81,25 @@
 
     
     
-<p>The goal of this package is to help researchers estimate plasmid conjugation rates from liquid culture mating data.</p>
+<p>The goal of this package is to help researchers estimate plasmid conjugation rates from liquid mating cultures.</p>
 <p>During such an experiment a plasmid-carrying donor population <em>D</em> and a recipient population <em>R</em> are mixed together for time <em>t</em>. When a donor and recipient encounter each other, the donor may transfer its plasmid to the recipient, thereby turning it into a transconjugant at rate <em>gamma.D</em> (a conjugation event; adding to the transconjugant population <em>T</em>). Transconjugants can also pass their plasmids to recipients, creating further transconjugants at a rate <em>gamma.T</em>.</p>
 <p>We thus distinguish two types of conjugation events: <strong>DRT</strong>, in which an interaction with a Donor turns a Recipient into a Transconjugant, and <strong>TRT</strong>, in which an interaction with a Transconjugant turns a Recipient into a Transconjugant.</p>
+<p>For more details on the implemented methods, please refer to <a href="https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1">our paper</a>.</p>
 <div id="data-example" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data-example" class="anchor"></a>Data Example</h3>
 <p>In this vignette we will use a toy dataset, meant to reflect the typical output of a conjugation experiment.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JSHuisman/conjugator">conjugator</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="co">#load package</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JSHuisman/conjugator">conjugator</a></span><span class="op">)</span>
+<span class="co">#load example data</span>
 <span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">'../data/DRT_example.rda'</span><span class="op">)</span>
 <span class="va">DRT_example</span>
 <span class="co">#&gt;   ID psi.D psi.R psi.T   D.0   R.0   D.t   R.t   T.t t</span>
 <span class="co">#&gt; 1 A1   0.8     1   0.9 10000 10000 1e+07 1e+07 1e+05 7</span>
 <span class="co">#&gt; 2 A2   0.8     1   0.9 10000 10000 1e+07 1e+07 1e+05 7</span>
 <span class="co">#&gt; 3 A3   0.8     1   1.0 10000 10000 1e+07 1e+07 1e+05 7</span></code></pre></div>
+<p>The functions in the package expect each row of the input data to represent a separate measurement. The id_cols argument can be used to specify which columns contain unique measurement (e.g. samplename or timepoint) identifiers. The other columns should contain the information necessary to estimate the conjugation rate. This typically includes initial population sizes (D.0 and R.0), final population sizes (D.t, R.t, T.t), and growth rates (psi.D, psi.R, psi.T and/or psi.max). The column names should follow the names specified, but the order is not important.</p>
 </div>
 <div id="conjugation-rate-estimation" class="section level3">
 <h3 class="hasAnchor">
@@ -158,7 +162,7 @@
 <div id="scanning-critical-times-prior-to-a-trt-experiment" class="section level3">
 <h3 class="hasAnchor">
 <a href="#scanning-critical-times-prior-to-a-trt-experiment" class="anchor"></a>Scanning Critical Times Prior to a TRT Experiment</h3>
-<p>Sometimes one might want to know what the impact of higher conjugation rates from transconjugants would be, without running the second experiment (TRT).</p>
+<p>To see whether it would make sense to run the second experiment (TRT) before going through the trouble of doing so, it can be relevant to estimate what the impact of higher conjugation rates from transconjugants would be on the critical time.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#multiplication factors to try</span>
 <span class="va">gamma_mult_factors</span> <span class="op">&lt;-</span> <span class="fl">10</span><span class="op">**</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span>

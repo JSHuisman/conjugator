@@ -74,9 +74,10 @@
 <div id="conjugator-r-package" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#conjugator-r-package" class="anchor"></a>Conjugator R Package</h1></div>
-<p>Quantifying plasmid conjugation just got easier! This package is designed to make the estimation and reporting of plasmid conjugation rates from liquid mating cultures easier, more accurate, and more comparable.</p>
-<p>The two recommended methods to estimate plasmid conjugation rates are <strong>the Simonsen end-point formula</strong> (Simonsen <em>et al</em>, J.Gen. Microbiol, 1990), applicable if all strains involved in conjugation grow at the same rate, and <strong>the ASM end-point formula</strong>, which relaxes this assumption (<a href="https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1">Huisman <em>et al</em>, 2020</a>).</p>
+<p>Quantifying plasmid conjugation just got easier! This package is designed to make the estimation and reporting of plasmid conjugation rates from liquid mating cultures easier, more accurate, and more comparable. This functionality can also be explored in a <a href="https://ibz-shiny.ethz.ch/jhuisman/conjugator/">Shiny app</a>.</p>
+<p>The two recommended methods to estimate plasmid conjugation rates are <strong>the Simonsen end-point formula</strong> (Simonsen <em>et al</em>, J.Gen. Microbiol, 1990), applicable if all strains involved in conjugation grow at the same rate, and <strong>the ASM end-point formula</strong>, which relaxes this assumption (Huisman <em>et al</em>, 2020).</p>
 <p>Both of these formulae will cease to be accurate once either the contribution of transconjugants to the overall conjugation becomes substantial, or the recipient dynamics are dominated by conjugation rather than growth. Based on the relative timing of these events, we derived the <strong>critical time</strong> within which the conjugation rate estimates remain valid.</p>
+<p>More details about these methods can be found in <a href="https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1">our paper</a>.</p>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
@@ -95,12 +96,15 @@ install.packages("path_to_file", repos = NULL, type = "source")</a></code></pre>
 <div id="usage" class="section level3">
 <h3 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h3>
-<p>This package carries out two main tasks:</p>
-<ul>
-<li>estimate_conj_rate() estimates conjugation rates from experimental data</li>
-<li>estimate_crit_time() reports the critical times</li>
-</ul>
-<p>For a walk-through of the most important package functionality, check out the <a href="./vignettes">vignette</a>.</p>
+<p>This package has two main functions:</p>
+<p>(i) Estimate conjugation rates from experimental data</p>
+<pre class="{r}"><code><a href="https://rdrr.io/r/base/load.html">load('../data/DRT_example.rda')
+estimate_conj_rate(DRT_example, "ASM")</a></code></pre>
+<p>(ii) Estimate the critical times</p>
+<pre class="{r}"><code><a href="https://rdrr.io/r/base/load.html">load('../data/DRT_example.rda')
+load('../data/TRT_example.rda')
+estimate_crit_time(DRT_example, TRT_example, tol_factor = 10)</a></code></pre>
+<p>For a walk-through of the most important package functionality, check out the <a href="https://jshuisman.github.io/conjugator/articles/conjugator.html">vignette</a>.</p>
 </div>
 <div id="contact-and-citation" class="section level3">
 <h3 class="hasAnchor">
