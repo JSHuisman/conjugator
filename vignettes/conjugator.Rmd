@@ -16,20 +16,26 @@ knitr::opts_chunk$set(
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
-The goal of this package is to help researchers estimate plasmid conjugation rates from liquid culture mating data.
+The goal of this package is to help researchers estimate plasmid conjugation rates from liquid mating cultures.
 
 During such an experiment a plasmid-carrying donor population *D* and a recipient population *R* are mixed together for time *t*. When a donor and recipient encounter each other, the donor may transfer its plasmid to the recipient, thereby turning it into a transconjugant at rate *gamma.D* (a conjugation event; adding to the transconjugant population *T*). Transconjugants can also pass their plasmids to recipients, creating further transconjugants at a rate *gamma.T*. 
 
 We thus distinguish two types of conjugation events: **DRT**, in which an interaction with a Donor turns a Recipient into a Transconjugant, and **TRT**, in which an interaction with a Transconjugant turns a Recipient into a Transconjugant.
 
+For more details on the implemented methods, please refer to [our paper](https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1).
+
 ### Data Example
 In this vignette we will use a toy dataset, meant to reflect the typical output of a conjugation experiment.
 
 ```{r setup}
+#load package
 library(conjugator)
+#load example data
 load('../data/DRT_example.rda')
 DRT_example
 ```
+
+The functions in the package expect each row of the input data to represent a separate measurement. The id_cols argument can be used to specify which columns contain unique measurement (e.g. samplename or timepoint) identifiers. The other columns should contain the information necessary to estimate the conjugation rate. This typically includes initial population sizes (D.0 and R.0), final population sizes (D.t, R.t, T.t), and growth rates (psi.D, psi.R, psi.T and/or psi.max). The column names should follow the names specified, but the order is not important.
 
 ### Conjugation Rate Estimation
 Several methods to estimate conjugation rates are implemented in this package. We generally recommend using the SM or ASM method.
@@ -78,7 +84,7 @@ estimate_crit_time(example_data, TRT = NULL, tol_factor = 10)
 ```
 
 ### Scanning Critical Times Prior to a TRT Experiment
-Sometimes one might want to know what the impact of higher conjugation rates from transconjugants would be, without running the second experiment (TRT). 
+To see whether it would make sense to run the second experiment (TRT) before going through the trouble of doing so, it can be relevant to estimate what the impact of higher conjugation rates from transconjugants would be on the critical time. 
 
 ```{r fig.asp = 0.5, fig.width = 8, out.width = "100%"}
 #multiplication factors to try

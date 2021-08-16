@@ -8,14 +8,20 @@
 The conjugator package provides the functions for
 conjugation rate estimation, the assessment of critical times,
 and basic growth rate estimation.
+Details about these methods can be found in Huisman et al., 2020
+https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1
+}
+\details{
+This functionality can also be explored in a Shiny app,
+available at https://ibz-shiny.ethz.ch/jhuisman/conjugator/.
 }
 \section{Conjugation rate estimation}{
 
-The estimate_conj_rate function allows the user to estimate a variety
+The estimate_conj_rate function allows the user to compute a variety
 of conjugation rate estimates from experimental data.
-Currently implemented are the SM and ASM endpoint formulae, T/D, T/DR,
-T/(T+R), as well as T/sqrt(DR) and log(T/sqrt(DR)) (Dionisio and Gama,
-respecitvely).
+Currently implemented are the Simonsen and Approximate Simonsen endpoint formulae,
+T/D, T/DR, T/(T+R), as well as T/sqrt(DR) and log(T/sqrt(DR))
+(called Dionisio and Gama, respectively).
 }
 
 \section{Critical time estimation}{

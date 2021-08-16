@@ -1,10 +1,12 @@
 # Conjugator R Package
 
-Quantifying plasmid conjugation just got easier! This package is designed to make the estimation and reporting of plasmid conjugation rates from liquid mating cultures easier, more accurate, and more comparable. 
+Quantifying plasmid conjugation just got easier! This package is designed to make the estimation and reporting of plasmid conjugation rates from liquid mating cultures easier, more accurate, and more comparable. This functionality can also be explored in a [Shiny app](https://ibz-shiny.ethz.ch/jhuisman/conjugator/). 
 
-The two recommended methods to estimate plasmid conjugation rates are **the Simonsen end-point formula** (Simonsen *et al*, J.Gen. Microbiol, 1990), applicable if all strains involved in conjugation grow at the same rate, and **the ASM end-point formula**, which relaxes this assumption ([Huisman *et al*, 2020](https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1)). 
+The two recommended methods to estimate plasmid conjugation rates are **the Simonsen end-point formula** (Simonsen *et al*, J.Gen. Microbiol, 1990), applicable if all strains involved in conjugation grow at the same rate, and **the ASM end-point formula**, which relaxes this assumption (Huisman *et al*, 2020). 
 
 Both of these formulae will cease to be accurate once either the contribution of transconjugants to the overall conjugation becomes substantial, or the recipient dynamics are dominated by conjugation rather than growth. Based on the relative timing of these events, we derived the **critical time** within which the conjugation rate estimates remain valid. 
+
+More details about these methods can be found in [our paper](https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1).
 
 ### Installation 
 
@@ -27,11 +29,20 @@ Note: the Conjugator package is not yet listed on CRAN, so the default install.p
 
 ### Usage 
 
-This package carries out two main tasks:
-- estimate_conj_rate() estimates conjugation rates from experimental data
-- estimate_crit_time() reports the critical times
+This package has two main functions:
+(i) Estimate conjugation rates from experimental data
+```{r}
+load('../data/DRT_example.rda')
+estimate_conj_rate(DRT_example, "ASM")
+```
+(ii) Estimate the critical times
+```{r}
+load('../data/DRT_example.rda')
+load('../data/TRT_example.rda')
+estimate_crit_time(DRT_example, TRT_example, tol_factor = 10)
+```
 
-For a walk-through of the most important package functionality, check out the [vignette](./vignettes).
+For a walk-through of the most important package functionality, check out the [vignette](https://jshuisman.github.io/conjugator/articles/conjugator.html).
 
 ### Contact and citation 
 This package was created by Jana S. Huisman, in collaboration with Fabienne Benz, Sarah J.N. Duxbury, J. Arjan G.M. de Visser, Alex R. Hall, Egil A.J. Fischer, and Sebastian Bonhoeffer.
