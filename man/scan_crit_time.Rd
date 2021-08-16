@@ -26,7 +26,10 @@ the data given. This requires D.t, R.t, T.t
 If gamma.T is among the columns, the input under TRT will
 be ignored.}
 
-\item{tol_factor}{Double. The imprecision factor.}
+\item{tol_factor}{Double. The imprecision factor: this
+factor indicates how close the system is allowed to
+approach a state where it violates the ASM assumptions
+(smaller values allow greater violation).}
 
 \item{id_cols}{List of strings. Specifies the column
 names that should be treated as identifiers (will be returned in output).}

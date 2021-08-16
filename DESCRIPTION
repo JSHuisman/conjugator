@@ -20,5 +20,8 @@ Suggests:
     ggplot2,
     tidyr,
     stats,
+    rmarkdown,
     knitr
 VignetteBuilder: knitr
+URL: https://github.com/JSHuisman/conjugator
+BugReports: https://github.com/JSHuisman/conjugator/issues

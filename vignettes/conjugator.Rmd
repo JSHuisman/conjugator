@@ -66,6 +66,8 @@ load('../data/TRT_example.rda')
 
 estimate_crit_time(DRT_example, TRT_example, tol_factor = 10)
 ```
+The tolerance factor here can be compared with a numerical tolerance in optimisation algorithms, indicating how close the system is allowed to approach a state where it violates the ASM assumptions (smaller values allow greater violation).
+
 This function can also be used with a single dataframe that already contains gamma.D and gamma.T values.
 ```{r}
 example_data <- cbind(DRT_example[, c('ID', 'psi.D', 'psi.R', 'psi.T', 'D.0', 'R.0')], 
@@ -90,5 +92,19 @@ ggplot(scan_result) +
   facet_wrap(vars(ID)) +
   labs(x = 'Log ratio between gamma.T and gamma.D', y = 'Minimal Critical Time')
 ```
+### A note on growth rates
+The package currently also contains a function to estimate growth rates from OD data. This is included only for convenience and no guarantees can be made for correctness! Generally we recommend using a dedicated package such as growthcurver to estimate growth rates.
 
+```{r fig.asp = 0.5, fig.width = 8, out.width = "100%"}
+load('../data/growth_example.rda')
+
+growth_df <- growth_example[1:15, c('Time_h', 'Donor_OD')]
+
+growth_fit <- estimate_growth_rate(growth_df, t_start = 0, t_col = 'Time_h')
+growth_plot <- get_growth_fit_for_plot(growth_df, t_col = 'Time_h', growth_fit)
+
+ggplot() +
+  geom_point(data = growth_df, aes(x = Time_h, y = Donor_OD)) +
+  geom_line(data = growth_plot, aes(x = time, y = OD))
+```
 

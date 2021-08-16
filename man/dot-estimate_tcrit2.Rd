@@ -9,7 +9,10 @@
 \arguments{
 \item{data}{Dataframe combining both DRT and TRT data.}
 
-\item{tol_factor}{Double. The imprecision factor.}
+\item{tol_factor}{Double. The imprecision factor: this
+factor indicates how close the system is allowed to
+approach a state where it violates the ASM assumptions
+(smaller values allow greater violation).}
 }
 \value{
 Estimate for tcrit2

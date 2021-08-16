@@ -101,8 +101,7 @@ test_that("get_growth_fit_for_plot: missing input data columns results in errors
 
   bad_growth_fit <- growth_fit
   colnames(bad_growth_fit) <- rep('test', 6)
-  expect_warning(get_growth_fit_for_plot(growth_example, t_col = 'Time_h', bad_growth_fit), 'The growth fit data is corrupted')
-  expect_equal(suppressWarnings(get_growth_fit_for_plot(growth_example, t_col = 'Time_h', bad_growth_fit)), data.frame())
+  expect_error(get_growth_fit_for_plot(growth_example, t_col = 'Time_h', bad_growth_fit), 'The growth fit data is corrupted')
 })
 
 

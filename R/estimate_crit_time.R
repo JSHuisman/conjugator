@@ -24,7 +24,10 @@
 #' be ignored.
 #' @param TRT Dataframe. Data corresponding to the second
 #' conjugation experiment. Same columns needed as for DRT.
-#' @param tol_factor Double. The imprecision factor.
+#' @param tol_factor Double. The imprecision factor: this
+#' factor indicates how close the system is allowed to
+#' approach a state where it violates the ASM assumptions
+#' (smaller values allow greater violation).
 #' @param id_cols List of strings. Specifies the column
 #' names that should be treated as identifiers (will be returned in output).
 #' @param verbose Boolean. Should warnings be returned?
@@ -152,14 +155,14 @@ estimate_crit_time <- function(DRT, TRT = NULL, tol_factor = 10, id_cols = c('ID
     if ('try-error' %in% class(first_result)){
       if (verbose){
         warning("Unable to estimate gamma.D from the DRT input. Please add gamma.D as column directly,
-           or supply the necessary input columns to estimate gamma.D .")
+           or supply the necessary input columns to estimate gamma.D .\n")
       }
     } else {
 
       if (any(is.na(first_result[2]))){
         if (verbose){
           warning(paste0('The ASM method generated NAs in row ', which(is.na(first_result[2])),
-                         ', using SM to determine gamma.D instead.'))
+                         ', using SM to determine gamma.D instead.\n'))
         }
         first_result <- estimate_conj_rate(DRT, method = c("SM"))
 
@@ -184,7 +187,7 @@ estimate_crit_time <- function(DRT, TRT = NULL, tol_factor = 10, id_cols = c('ID
     if ('try-error' %in% class(second_result)){
       if(verbose){
       warning("Unable to estimate gamma.T from the TRT input. Please add gamma.T as column directly,
-           or supply the necessary input columns to estimate gamma.T .")
+           or supply the necessary input columns to estimate gamma.T .\n")
       }
       return(crit_data)
     }
@@ -192,7 +195,7 @@ estimate_crit_time <- function(DRT, TRT = NULL, tol_factor = 10, id_cols = c('ID
     if (any(is.na(second_result[2]))){
       if (verbose){
       warning(paste0('The ASM method generated NAs in row ', which(is.na(second_result[2])),
-                     ', using SM to determine gamma.T instead.'))
+                     ', using SM to determine gamma.T instead.\n'))
         }
       second_result <- estimate_conj_rate(TRT, method = c("SM"))
     }

@@ -13,13 +13,17 @@ The quickest way to install Conjugator is to use the devtools package:
 # Make sure you have devtools; this installs the package from CRAN
 install.packages("devtools")
 # Then use devtools to install the conjugator package from github
-devtools::install_github("JSHuisman/conjugator")
+library(devtools)
+install_github("JSHuisman/conjugator", build_vignettes = TRUE)
 ```
+The package devtools generally requires the user to have a working development environment, which includes [Rtools](https://cran.r-project.org/bin/windows/Rtools/) on Windows, and Xcode on Mac.
+
 Alternatively, you can also download the Conjugator package locally (select the tar.gz file and save it to your computer) and then run the following:
 ```{r}
 # path_to_file indicates where you saved the tar.gz file + full file name and extension
 install.packages("path_to_file", repos = NULL, type = "source")
 ```
+Note: the Conjugator package is not yet listed on CRAN, so the default install.packages in R will not work!
 
 ### Usage 
 

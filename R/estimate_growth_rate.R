@@ -137,10 +137,11 @@ get_growth_fit_for_plot <- function(OD_data, t_col = 'time', growth_fit, verbose
   .check_growth_input(OD_data, t_col)
   growth_fit_cols = c("name","carrying_cap", "growth_rate","N0","t_min","t_stat")
   if (!all(growth_fit_cols %in% colnames(growth_fit))&verbose){
-    warning('The growth fit data is corrupted: missing necessary columns.')
+    stop('The growth fit data is corrupted: missing necessary columns.')
   }
 
   samples = growth_fit[['name']]
+  blank <- min(OD_data[, samples], na.rm = T)
 
   growth_fit_df <- data.frame()
   for (i in seq_along(samples)){
@@ -158,7 +159,7 @@ get_growth_fit_for_plot <- function(OD_data, t_col = 'time', growth_fit, verbose
                             time = OD_data[[t_col]],
                             OD = c(rep(0, t_min_ind-1),
                                    .logist(short_time_col, growth_fit[i, 'carrying_cap'],
-                                        growth_fit[i, 'growth_rate'], growth_fit[i, 'N0']) ) )
+                                        growth_fit[i, 'growth_rate'], growth_fit[i, 'N0']) ) + blank )
 
     growth_fit_df <- rbind(growth_fit_df, sample_df)
   }
