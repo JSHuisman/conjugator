@@ -1,0 +1,15 @@
+reference:
+- title: "Estimating conjugation rates"
+  desc: "Functions to estimate conjugation rates."
+- contents:
+  - estimate_conj_rate
+- title: "Estimating critical times"
+  desc: "Functions to estimate critical times."
+- contents:
+  - estimate_crit_time
+  - scan_crit_time
+- title: "Estimating growth rates"
+  desc: "Functions to estimate growth rates."
+- contents:
+  - estimate_growth_rate
+  - get_growth_fit_for_plot
