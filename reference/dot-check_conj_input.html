@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">conjugator</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -139,17 +139,18 @@ Optional columns: T.0, psi.max (for the Simonsen method).</p></td>
       <th>method</th>
       <td><p>String or list of strings. Describes method(s) used to
 estimate the conjugation rate. Takes the following
-values:
-- SM (Simonsen Method): The population growth rate can be supplied with
+values:</p><ul>
+<li><p>SM (Simonsen Method): The population growth rate can be supplied with
  psi.N or psi.max; otherwise the method will choose
- the maximum among psi.D, psi.R, psi.T;
-- ASM (Approximate Simonsen Method);
-- TD \(T/D\);
-- T_DR \(T/DR\);
-- T_RT \(T/(R+T)\): The fraction
-  of plasmid-carrying recipients;
-- Dionisio;
-- Gama.</p></td>
+ the maximum among psi.D, psi.R, psi.T;</p></li>
+<li><p>ASM (Approximate Simonsen Method): ;</p></li>
+<li><p>TD: \(T/D\);</p></li>
+<li><p>T_DR: \(T/DR\);</p></li>
+<li><p>T_RT: \(T/(R+T)\): The fraction
+  of plasmid-carrying recipients;</p></li>
+<li><p>Dionisio: \(T/\sqrt{DR}\);</p></li>
+<li><p>Gama: \(log10(T/\sqrt{DR})\).</p></li>
+</ul></td>
     </tr>
     </table>
 
