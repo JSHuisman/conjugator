@@ -20,7 +20,8 @@ estimate vector
 }
 \description{
 \code{.estimate_Gama} returns the Gama
-estimate.
+estimate: log10(T/sqrt(DR)).
+This is the log10 of the Dionisio estimate.
 }
 \details{
 João Alves Gama, Rita Zilhão, and Francisco Dionisio.

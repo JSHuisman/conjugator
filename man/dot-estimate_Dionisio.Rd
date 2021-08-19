@@ -20,8 +20,10 @@ estimate vector
 }
 \description{
 \code{.estimate_Dionisio} returns the
-Dionisio estimate.
+Dionisio estimate: T/sqrt(DR).
 }
 \details{
-(INSERT CITATION)
+Dionisio F, Matic I, Radman M, Rodrigues OR, Taddei F.
+Plasmids spread very fast in heterogeneous bacterial communities.
+Genetics 2002 Dec;162(4):1525–32.
 }

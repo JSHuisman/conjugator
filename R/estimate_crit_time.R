@@ -120,9 +120,10 @@ estimate_crit_time <- function(DRT, TRT = NULL, tol_factor = 10, id_cols = c('ID
                     (tol_factor*data[['gamma.D']] * data[['gamma.T']] * data[['D.0']] * data[['R.0']]))/
       (data[['psi.D']] + data[['psi.R']])
   } else if (data[['psi.D']] + data[['psi.R']] == data[['psi.T']]){
-    tcrit3 <- log(data[['psi.R']] /
-                    (tol_factor*data[['gamma.D']] * data[['gamma.T']] * data[['D.0']] * data[['R.0']]))/
-      (data[['psi.D']] + data[['psi.R']])
+    # tcrit3 <- log(data[['psi.R']] /
+    #                 (tol_factor*data[['gamma.D']] * data[['gamma.T']] * data[['D.0']] * data[['R.0']]))/
+    #   (data[['psi.D']] + data[['psi.R']])
+    tcrit3 <- uniroot(.t3_rootfunc, c(-100, 100), data, tol_factor)$root
   } else {
     tcrit3 <- log(data[['psi.R']] *
                     (data[['psi.T']] - data[['psi.D']] - data[['psi.R']])/
@@ -132,6 +133,13 @@ estimate_crit_time <- function(DRT, TRT = NULL, tol_factor = 10, id_cols = c('ID
 
   tcrit3 <- signif(tcrit3, digits = 3)
   return(tcrit3)
+}
+
+# For use in the rootfinder for psiD + psiR = psiT
+.t3_rootfunc <- function(t, data, tol_factor = 10){
+  return_val <- data[['psi.R']] - tol_factor*data[['gamma.D']] * data[['gamma.T']] *
+    data[['D.0']] * data[['R.0']]*exp(data[['psi.T']]*t)*t
+  return(return_val)
 }
 
 

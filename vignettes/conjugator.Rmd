@@ -25,23 +25,23 @@ We thus distinguish two types of conjugation events: **DRT**, in which an intera
 For more details on the implemented methods, please refer to [our paper](https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1).
 
 ### Data Example
-In this vignette we will use a toy dataset, meant to reflect the typical output of a conjugation experiment.
+In this vignette we will use a toy dataset (which comes with the package), which reflects the typical output of a conjugation experiment.
 
 ```{r setup}
 #load package
 library(conjugator)
-#load example data
-load('../data/DRT_example.rda')
+#check out the example data 
 DRT_example
 ```
 
-The functions in the package expect each row of the input data to represent a separate measurement. The id_cols argument can be used to specify which columns contain unique measurement (e.g. samplename or timepoint) identifiers. The other columns should contain the information necessary to estimate the conjugation rate. This typically includes initial population sizes (D.0 and R.0), final population sizes (D.t, R.t, T.t), and growth rates (psi.D, psi.R, psi.T and/or psi.max). The column names should follow the names specified, but the order is not important.
+The functions in the package expect each row of the input data to represent a separate measurement. The id_cols argument can be used to specify which columns contain unique measurement (e.g. sample name or time point) identifiers. The other columns should contain the information necessary to estimate the conjugation rate. This typically includes initial population sizes (D.0 and R.0), final population sizes (D.t, R.t, T.t), and growth rates (psi.D, psi.R, psi.T and/or psi.max). The column names should follow the names specified, but the order is not important.
 
 ### Conjugation Rate Estimation
 Several methods to estimate conjugation rates are implemented in this package. We generally recommend using the SM or ASM method.
 
 To calculate the conjugation rates for each row in the input data, select a method (here "ASM") and run:
 ```{r}
+# the estimate column contains the estimated conjugation rate
 estimate_conj_rate(DRT_example, "ASM")
 ```
 One can also run multiple methods at the same time, these will be returned in a "long format" (for ease of use with ggplot).
@@ -65,14 +65,15 @@ wide_result_df
 ```
 
 ### Critical Time Estimation
-The methods to estimate conjugation rates all make assumptions about the relative importance of different processes such as depletion of the recipient population, or the contribution of transconjugants to conjugation. We have derived an estimate for the time until each of these assumptions breaks down. To obtain accurate estimates of the conjugation rates, one should ideally measure prior to the minimum of the three critical times.
+The methods to estimate conjugation rates make assumptions about the relative importance of different processes such as depletion of the recipient population, or the contribution of transconjugants to conjugation. We have derived an estimate for the time until each of these (three) assumptions breaks down. To obtain accurate estimates of the conjugation rates, one should measure prior to the minimum of the reported critical times. This time gives an upper limit for the duration of the conjugation step in the mating protocol.
 
 ```{r}
-load('../data/TRT_example.rda')
-
+# the example data for the TRT experiment
+print(TRT_example)
+# estimate the critical times
 estimate_crit_time(DRT_example, TRT_example, tol_factor = 10)
 ```
-The tolerance factor here can be compared with a numerical tolerance in optimisation algorithms, indicating how close the system is allowed to approach a state where it violates the ASM assumptions (smaller values allow greater violation).
+The tolerance factor here can be compared with a numerical tolerance in optimisation algorithms, indicating how close the system is allowed to approach a state where it violates the ASM assumptions (smaller values allow greater violation). You can typically leave it set to 10.
 
 This function can also be used with a single dataframe that already contains gamma.D and gamma.T values.
 ```{r}
@@ -84,10 +85,10 @@ estimate_crit_time(example_data, TRT = NULL, tol_factor = 10)
 ```
 
 ### Scanning Critical Times Prior to a TRT Experiment
-To see whether it would make sense to run the second experiment (TRT) before going through the trouble of doing so, it can be relevant to estimate what the impact of higher conjugation rates from transconjugants would be on the critical time. 
+To see whether it would make sense to run the second experiment (TRT) before going through the trouble of carrying it out, it can be relevant to estimate what the impact of higher conjugation rates from transconjugants would be on the critical time. Assuming we can estimate gamma.D from the input DRT experiment, this function scans across a range of gamma.T/gamma.D ratios to determine the resulting critical time. Due to transitory derepression, one would typically expect gamma.T/gamma.D > 1.
 
-```{r fig.asp = 0.5, fig.width = 8, out.width = "100%"}
-#multiplication factors to try
+```{r  fig.asp = 0.5, fig.width = 8, out.width = "100%"}
+# the range of gamma.T/gamma.D ratios (multiplication factors) to evaluate
 gamma_mult_factors <- 10**seq(-2, 5, 1)
 
 scan_result <- scan_crit_time(DRT_example, tol_factor = 10, mult_seq = gamma_mult_factors)
@@ -98,11 +99,12 @@ ggplot(scan_result) +
   facet_wrap(vars(ID)) +
   labs(x = 'Log ratio between gamma.T and gamma.D', y = 'Minimal Critical Time')
 ```
+
 ### A note on growth rates
 The package currently also contains a function to estimate growth rates from OD data. This is included only for convenience and no guarantees can be made for correctness! Generally we recommend using a dedicated package such as growthcurver to estimate growth rates.
 
-```{r fig.asp = 0.5, fig.width = 8, out.width = "100%"}
-load('../data/growth_example.rda')
+```{r  fig.asp = 0.5, fig.width = 8, out.width = "100%"}
+growth_example
 
 growth_df <- growth_example[1:15, c('Time_h', 'Donor_OD')]
 

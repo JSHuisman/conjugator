@@ -4,10 +4,10 @@
 #' conjugation rate estimation, the assessment of critical times,
 #' and basic growth rate estimation.
 #' Details about these methods can be found in Huisman et al., 2020
-#' https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1
+#' \url{https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1}
 #'
 #'This functionality can also be explored in a Shiny app,
-#'available at https://ibz-shiny.ethz.ch/jhuisman/conjugator/.
+#'available at \url{https://ibz-shiny.ethz.ch/jhuisman/conjugator/}.
 #'
 #' @section Conjugation rate estimation:
 #' The estimate_conj_rate function allows the user to compute a variety
@@ -34,4 +34,5 @@
 #' @name conjugator
 #'
 #' @importFrom stats na.omit
+#' @importFrom stats uniroot
 NULL

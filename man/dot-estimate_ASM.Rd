@@ -25,3 +25,7 @@ estimate vector
 \code{.estimate_ASM} returns the ASM
  formula from data.
 }
+\details{
+Details can be found in Huisman et al., 2020
+\url{https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1}
+}

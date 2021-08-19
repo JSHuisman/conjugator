@@ -18,16 +18,18 @@
 #' @param method String or list of strings. Describes method(s) used to
 #' estimate the conjugation rate. Takes the following
 #' values:
-#' - SM (Simonsen Method): The population growth rate can be supplied with
+#' \itemize{
+#'    \item SM (Simonsen Method): The population growth rate can be supplied with
 #'  psi.N or psi.max; otherwise the method will choose
 #'  the maximum among psi.D, psi.R, psi.T;
-#' - ASM (Approximate Simonsen Method);
-#' - TD \eqn{T/D};
-#' - T_DR \eqn{T/DR};
-#' - T_RT \eqn{T/(R+T)}: The fraction
+#'    \item ASM (Approximate Simonsen Method): ;
+#'    \item TD: \eqn{T/D};
+#'    \item T_DR: \eqn{T/DR};
+#'    \item T_RT: \eqn{T/(R+T)}: The fraction
 #'   of plasmid-carrying recipients;
-#' - Dionisio;
-#' - Gama.
+#'    \item Dionisio: \eqn{T/\sqrt{DR}};
+#'    \item Gama: \eqn{log10(T/\sqrt{DR})}.
+#' }
 #' @param id_cols List of strings. Column names in the data
 #' that should be treated as identifiers (will be returned in output).
 #' @param verbose Boolean. Should the method return warnings?
@@ -172,6 +174,9 @@ estimate_conj_rate <- function(data, method = c("SM", "ASM"), id_cols = c('ID'),
 #' \code{.estimate_ASM} returns the ASM
 #'  formula from data.
 #'
+#' Details can be found in Huisman et al., 2020
+#' \url{https://www.biorxiv.org/content/10.1101/2020.03.09.980862v1}
+#'
 #' @inheritParams estimate_conj_rate
 #' @return estimate vector
 #' @aliases gammaD
@@ -250,9 +255,11 @@ estimate_conj_rate <- function(data, method = c("SM", "ASM"), id_cols = c('ID'),
 #' Dionisio estimate from data
 #'
 #' \code{.estimate_Dionisio} returns the
-#' Dionisio estimate.
+#' Dionisio estimate: T/sqrt(DR).
 #'
-#' (INSERT CITATION)
+#' Dionisio F, Matic I, Radman M, Rodrigues OR, Taddei F.
+#' Plasmids spread very fast in heterogeneous bacterial communities.
+#' Genetics 2002 Dec;162(4):1525–32.
 #'
 #' @inheritParams estimate_conj_rate
 #' @return estimate vector
@@ -267,7 +274,8 @@ estimate_conj_rate <- function(data, method = c("SM", "ASM"), id_cols = c('ID'),
 #' Gama estimate from data
 #'
 #' \code{.estimate_Gama} returns the Gama
-#' estimate.
+#' estimate: log10(T/sqrt(DR)).
+#' This is the log10 of the Dionisio estimate.
 #'
 #' João Alves Gama, Rita Zilhão, and Francisco Dionisio.
 #' Multiple plasmid interference - Pledging allegiance to my enemy’s enemy.
@@ -279,7 +287,7 @@ estimate_conj_rate <- function(data, method = c("SM", "ASM"), id_cols = c('ID'),
   necessary_cols = c("D.t", "R.t", "T.t")
   .check_cols_present(data, necessary_cols)
 
-  estimate <- log(data[, 'T.t']/sqrt(data[, 'R.t']*data[, 'D.t']))
+  estimate <- log10(data[, 'T.t']/sqrt(data[, 'R.t']*data[, 'D.t']))
   return(estimate)
 }
 

@@ -18,16 +18,18 @@ Optional columns: T.0, psi.max (for the Simonsen method).}
 \item{method}{String or list of strings. Describes method(s) used to
 estimate the conjugation rate. Takes the following
 values:
-- SM (Simonsen Method): The population growth rate can be supplied with
+\itemize{
+   \item SM (Simonsen Method): The population growth rate can be supplied with
  psi.N or psi.max; otherwise the method will choose
  the maximum among psi.D, psi.R, psi.T;
-- ASM (Approximate Simonsen Method);
-- TD \eqn{T/D};
-- T_DR \eqn{T/DR};
-- T_RT \eqn{T/(R+T)}: The fraction
+   \item ASM (Approximate Simonsen Method): ;
+   \item TD: \eqn{T/D};
+   \item T_DR: \eqn{T/DR};
+   \item T_RT: \eqn{T/(R+T)}: The fraction
   of plasmid-carrying recipients;
-- Dionisio;
-- Gama.}
+   \item Dionisio: \eqn{T/\sqrt{DR}};
+   \item Gama: \eqn{log10(T/\sqrt{DR})}.
+}}
 
 \item{id_cols}{List of strings. Column names in the data
 that should be treated as identifiers (will be returned in output).}

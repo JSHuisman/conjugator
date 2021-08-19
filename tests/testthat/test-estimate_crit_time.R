@@ -37,6 +37,18 @@ test_that("example input DRT twice returns right result", {
   expect_equal(estimate_crit_time(DRT_example, tol_factor = 10, TRT = DRT_example), reference_result)
 })
 
+test_that("psiD, psiR, psiT edge cases are handled well", {
+  example_data <- data.frame('psi.D' = 1, 'psi.R' = 1, 'psi.T' = 2,
+                             'D.0' = 1e5, 'R.0' = 1e5,
+                             'gamma.D' = 1e-11, 'gamma.T' = 1e-9)
+
+  reference_result <- data.frame('ID' = factor(1), 'gamma.D' = 1e-11, 'gamma.T' = 1e-9,
+                                 'tcrit1' = 7.6, 'tcrit2' = 11.5,
+                                 'tcrit3' = 9.25, 'min_tcrit' = 7.6)
+
+  expect_equal(estimate_crit_time(example_data, tol_factor = 10), reference_result)
+})
+
 
 test_that("wrong input data format results in errors", {
   example_data <- data.frame('psi.D' = TRUE, 'psi.R' = 1.5, 'psi.T' = 1.5,

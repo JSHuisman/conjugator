@@ -6,7 +6,13 @@
 \alias{growth_rate}
 \title{Fit input data to a logistic growth function}
 \usage{
-estimate_growth_rate(OD_data, t_start = 0, t_col = "time", verbose = T)
+estimate_growth_rate(
+  OD_data,
+  t_start = 0,
+  t_col = "time",
+  blank_tf = T,
+  verbose = T
+)
 }
 \arguments{
 \item{OD_data}{Dataframe of OD data. Expects a column for the time (t_col),
@@ -16,6 +22,8 @@ by their column name).}
 \item{t_start}{Earliest possible time point from which to start the fit.}
 
 \item{t_col}{Name of the time column (defaults to 'time').}
+
+\item{blank_tf}{Boolean. Should a blank value be subtracted?}
 
 \item{verbose}{Boolean. Should warnings be returned?}
 }
@@ -27,7 +35,7 @@ name, carrying_cap, growth_rate, N0, t_min and t_stat.
 \code{estimate_growth_rate} fits the input OD data to a
   logistic growth function.
 It differs from growthcurver by fitting the logged data and function.
-It also subtracts an estimated value for blank wells (taking the minimum
+It can also subtract an estimated value for blank wells (taking the minimum
 across all readings), and takes into account measurements only
 after t_start.
 }

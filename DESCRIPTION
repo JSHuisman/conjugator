@@ -1,7 +1,7 @@
 Package: conjugator
 Type: Package
-Title: Computes Plasmid Conjugation Rates
-Version: 0.0.0.9000
+Title: Estimate Plasmid Conjugation Rates
+Version: 1.0.0
 Depends: R (>= 3.5.0)
 Imports: 
 Authors@R: c(

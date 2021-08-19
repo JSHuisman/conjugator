@@ -9,7 +9,7 @@
 #' \code{estimate_growth_rate} fits the input OD data to a
 #'   logistic growth function.
 #' It differs from growthcurver by fitting the logged data and function.
-#' It also subtracts an estimated value for blank wells (taking the minimum
+#' It can also subtract an estimated value for blank wells (taking the minimum
 #' across all readings), and takes into account measurements only
 #' after t_start.
 #'
@@ -18,6 +18,7 @@
 #' by their column name).
 #' @param t_start Earliest possible time point from which to start the fit.
 #' @param t_col Name of the time column (defaults to 'time').
+#' @param blank_tf Boolean. Should a blank value be subtracted?
 #' @param verbose Boolean. Should warnings be returned?
 #' @return Dataframe of estimated growth parameters. Contains columns
 #' name, carrying_cap, growth_rate, N0, t_min and t_stat.
@@ -26,14 +27,19 @@
 #' @family growth rate functions
 #' @aliases growth growth_rate
 #' @export
-estimate_growth_rate <- function(OD_data, t_start = 0, t_col = 'time', verbose = T){
+estimate_growth_rate <- function(OD_data, t_start = 0, t_col = 'time', blank_tf = T, verbose = T){
   .check_growth_input(OD_data, t_col)
 
   samples = setdiff(colnames(OD_data), c(t_col))
   n_samples = length(samples)
 
   # we subtract the minimum OD everywhere
-  blank <- min(OD_data[, samples], na.rm = T)
+  if (blank_tf){
+    blank <- min(OD_data[, samples], na.rm = T)
+  } else {
+    blank <- 0
+  }
+
   growth_fit <- data.frame(name = samples, carrying_cap = NA,
                     growth_rate = NA, N0 = NA, t_min = NA, t_stat = NA)
 
@@ -56,6 +62,9 @@ estimate_growth_rate <- function(OD_data, t_start = 0, t_col = 'time', verbose =
     OD_col <- sub_OD_data[[colname]] - blank
     time_col <- sub_OD_data[[t_col]] - min_t
     init_growth_rate <- (log(OD_col[2])-log(OD_col[1]))/(time_col[2]-time_col[1])
+    if (is.infinite(init_growth_rate)){
+      init_growth_rate <- 20
+    }
 
     # 2 types of errors occur: (i) NAs in the .logist function, (ii) fit errors in nls
     # either results in a try-error and will be caught
@@ -133,7 +142,7 @@ estimate_growth_rate <- function(OD_data, t_start = 0, t_col = 'time', verbose =
 #' @family growth rate functions
 #' @aliases growth_fit
 #' @export
-get_growth_fit_for_plot <- function(OD_data, t_col = 'time', growth_fit, verbose = T){
+get_growth_fit_for_plot <- function(OD_data, t_col = 'time', growth_fit, blank_tf = T, verbose = T){
   .check_growth_input(OD_data, t_col)
   growth_fit_cols = c("name","carrying_cap", "growth_rate","N0","t_min","t_stat")
   if (!all(growth_fit_cols %in% colnames(growth_fit))&verbose){
@@ -141,7 +150,11 @@ get_growth_fit_for_plot <- function(OD_data, t_col = 'time', growth_fit, verbose
   }
 
   samples = growth_fit[['name']]
-  blank <- min(OD_data[, samples], na.rm = T)
+  if (blank_tf){
+    blank <- min(OD_data[, samples], na.rm = T)
+  } else {
+    blank <- 0
+  }
 
   growth_fit_df <- data.frame()
   for (i in seq_along(samples)){

@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Computes Plasmid Conjugation Rates • conjugator</title>
+<title>Estimate Plasmid Conjugation Rates • conjugator</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Computes Plasmid Conjugation Rates">
+<script src="pkgdown.js"></script><meta property="og:title" content="Estimate Plasmid Conjugation Rates">
 <meta property="og:description" content="The conjugator package computes plasmid conjugation rates from 
     experimental data. In addition we provide functions for the assessment of critical times,
     and basic growth rate estimation.">
@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">conjugator</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -98,11 +98,11 @@ install.packages("path_to_file", repos = NULL, type = "source")</a></code></pre>
 <a href="#usage" class="anchor"></a>Usage</h3>
 <p>This package has two main functions:</p>
 <p>(i) Estimate conjugation rates from experimental data</p>
-<pre class="{r}"><code><a href="https://rdrr.io/r/base/load.html">load('../data/DRT_example.rda')
+<pre class="{r}"><code><a href="reference/estimate_conj_rate.html"># the DRT_example is included with the package
 estimate_conj_rate(DRT_example, "ASM")</a></code></pre>
 <p>(ii) Estimate the critical times</p>
-<pre class="{r}"><code><a href="https://rdrr.io/r/base/load.html">load('../data/DRT_example.rda')
-load('../data/TRT_example.rda')
+<pre class="{r}"><code><a href="reference/estimate_crit_time.html"># DRT and TRT refer to the first and second conjugation experiment
+# TRT_example is also included in the package
 estimate_crit_time(DRT_example, TRT_example, tol_factor = 10)</a></code></pre>
 <p>For a walk-through of the most important package functionality, check out the <a href="https://jshuisman.github.io/conjugator/articles/conjugator.html">vignette</a>.</p>
 </div>

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">conjugator</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -88,18 +88,17 @@
 <div id="data-example" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data-example" class="anchor"></a>Data Example</h3>
-<p>In this vignette we will use a toy dataset, meant to reflect the typical output of a conjugation experiment.</p>
+<p>In this vignette we will use a toy dataset (which comes with the package), which reflects the typical output of a conjugation experiment.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#load package</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JSHuisman/conjugator">conjugator</a></span><span class="op">)</span>
-<span class="co">#load example data</span>
-<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">'../data/DRT_example.rda'</span><span class="op">)</span>
+<span class="co">#check out the example data </span>
 <span class="va">DRT_example</span>
 <span class="co">#&gt;   ID psi.D psi.R psi.T   D.0   R.0   D.t   R.t   T.t t</span>
 <span class="co">#&gt; 1 A1   0.8     1   0.9 10000 10000 1e+07 1e+07 1e+05 7</span>
 <span class="co">#&gt; 2 A2   0.8     1   0.9 10000 10000 1e+07 1e+07 1e+05 7</span>
 <span class="co">#&gt; 3 A3   0.8     1   1.0 10000 10000 1e+07 1e+07 1e+05 7</span></code></pre></div>
-<p>The functions in the package expect each row of the input data to represent a separate measurement. The id_cols argument can be used to specify which columns contain unique measurement (e.g. samplename or timepoint) identifiers. The other columns should contain the information necessary to estimate the conjugation rate. This typically includes initial population sizes (D.0 and R.0), final population sizes (D.t, R.t, T.t), and growth rates (psi.D, psi.R, psi.T and/or psi.max). The column names should follow the names specified, but the order is not important.</p>
+<p>The functions in the package expect each row of the input data to represent a separate measurement. The id_cols argument can be used to specify which columns contain unique measurement (e.g. sample name or time point) identifiers. The other columns should contain the information necessary to estimate the conjugation rate. This typically includes initial population sizes (D.0 and R.0), final population sizes (D.t, R.t, T.t), and growth rates (psi.D, psi.R, psi.T and/or psi.max). The column names should follow the names specified, but the order is not important.</p>
 </div>
 <div id="conjugation-rate-estimation" class="section level3">
 <h3 class="hasAnchor">
@@ -107,7 +106,8 @@
 <p>Several methods to estimate conjugation rates are implemented in this package. We generally recommend using the SM or ASM method.</p>
 <p>To calculate the conjugation rates for each row in the input data, select a method (here “ASM”) and run:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/estimate_conj_rate.html">estimate_conj_rate</a></span><span class="op">(</span><span class="va">DRT_example</span>, <span class="st">"ASM"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># the estimate column contains the estimated conjugation rate</span>
+<span class="fu"><a href="../reference/estimate_conj_rate.html">estimate_conj_rate</a></span><span class="op">(</span><span class="va">DRT_example</span>, <span class="st">"ASM"</span><span class="op">)</span>
 <span class="co">#&gt;   ID     estimate method</span>
 <span class="co">#&gt; 1 A1 9.004904e-10    ASM</span>
 <span class="co">#&gt; 2 A2 9.004904e-10    ASM</span>
@@ -137,16 +137,21 @@
 <div id="critical-time-estimation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#critical-time-estimation" class="anchor"></a>Critical Time Estimation</h3>
-<p>The methods to estimate conjugation rates all make assumptions about the relative importance of different processes such as depletion of the recipient population, or the contribution of transconjugants to conjugation. We have derived an estimate for the time until each of these assumptions breaks down. To obtain accurate estimates of the conjugation rates, one should ideally measure prior to the minimum of the three critical times.</p>
+<p>The methods to estimate conjugation rates make assumptions about the relative importance of different processes such as depletion of the recipient population, or the contribution of transconjugants to conjugation. We have derived an estimate for the time until each of these (three) assumptions breaks down. To obtain accurate estimates of the conjugation rates, one should measure prior to the minimum of the reported critical times. This time gives an upper limit for the duration of the conjugation step in the mating protocol.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">'../data/TRT_example.rda'</span><span class="op">)</span>
-
+<code class="sourceCode R"><span class="co"># the example data for the TRT experiment</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">TRT_example</span><span class="op">)</span>
+<span class="co">#&gt;   ID psi.D psi.R psi.T   D.0   R.0   D.t   R.t   T.t t</span>
+<span class="co">#&gt; 1 A1   0.9     1   0.9 10000 10000 1e+07 1e+07 1e+05 7</span>
+<span class="co">#&gt; 2 A2   0.9     1   0.9 10000 10000 1e+07 1e+07 1e+06 7</span>
+<span class="co">#&gt; 3 A3   1.0     1   1.0 10000 10000 1e+07 1e+07 1e+06 7</span>
+<span class="co"># estimate the critical times</span>
 <span class="fu"><a href="../reference/estimate_crit_time.html">estimate_crit_time</a></span><span class="op">(</span><span class="va">DRT_example</span>, <span class="va">TRT_example</span>, tol_factor <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
 <span class="co">#&gt;   ID      gamma.D      gamma.T tcrit1 tcrit2 tcrit3 min_tcrit</span>
 <span class="co">#&gt; 1 A1 9.004904e-10 1.000545e-09   9.80   11.6   11.5      9.80</span>
 <span class="co">#&gt; 2 A2 9.004904e-10 1.000545e-08   7.49   11.6   10.2      7.49</span>
 <span class="co">#&gt; 3 A3 8.008783e-10 1.001098e-08   7.49   11.8   10.2      7.49</span></code></pre></div>
-<p>The tolerance factor here can be compared with a numerical tolerance in optimisation algorithms, indicating how close the system is allowed to approach a state where it violates the ASM assumptions (smaller values allow greater violation).</p>
+<p>The tolerance factor here can be compared with a numerical tolerance in optimisation algorithms, indicating how close the system is allowed to approach a state where it violates the ASM assumptions (smaller values allow greater violation). You can typically leave it set to 10.</p>
 <p>This function can also be used with a single dataframe that already contains gamma.D and gamma.T values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">example_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">DRT_example</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'ID'</span>, <span class="st">'psi.D'</span>, <span class="st">'psi.R'</span>, <span class="st">'psi.T'</span>, <span class="st">'D.0'</span>, <span class="st">'R.0'</span><span class="op">)</span><span class="op">]</span>, 
@@ -162,9 +167,9 @@
 <div id="scanning-critical-times-prior-to-a-trt-experiment" class="section level3">
 <h3 class="hasAnchor">
 <a href="#scanning-critical-times-prior-to-a-trt-experiment" class="anchor"></a>Scanning Critical Times Prior to a TRT Experiment</h3>
-<p>To see whether it would make sense to run the second experiment (TRT) before going through the trouble of doing so, it can be relevant to estimate what the impact of higher conjugation rates from transconjugants would be on the critical time.</p>
+<p>To see whether it would make sense to run the second experiment (TRT) before going through the trouble of carrying it out, it can be relevant to estimate what the impact of higher conjugation rates from transconjugants would be on the critical time. Assuming we can estimate gamma.D from the input DRT experiment, this function scans across a range of gamma.T/gamma.D ratios to determine the resulting critical time. Due to transitory derepression, one would typically expect gamma.T/gamma.D &gt; 1.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#multiplication factors to try</span>
+<code class="sourceCode R"><span class="co"># the range of gamma.T/gamma.D ratios (multiplication factors) to evaluate</span>
 <span class="va">gamma_mult_factors</span> <span class="op">&lt;-</span> <span class="fl">10</span><span class="op">**</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span>
 
 <span class="va">scan_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scan_crit_time.html">scan_crit_time</a></span><span class="op">(</span><span class="va">DRT_example</span>, tol_factor <span class="op">=</span> <span class="fl">10</span>, mult_seq <span class="op">=</span> <span class="va">gamma_mult_factors</span><span class="op">)</span>
@@ -199,9 +204,28 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">min_tcrit</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">mult_factor</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">'Log ratio between gamma.T and gamma.D'</span>, y <span class="op">=</span> <span class="st">'Minimal Critical Time'</span><span class="op">)</span></code></pre></div>
-<p><img src="conjugator_files/figure-html/unnamed-chunk-7-1.png" width="100%"> ### A note on growth rates The package currently also contains a function to estimate growth rates from OD data. This is included only for convenience and no guarantees can be made for correctness! Generally we recommend using a dedicated package such as growthcurver to estimate growth rates.</p>
+<p><img src="conjugator_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+</div>
+<div id="a-note-on-growth-rates" class="section level3">
+<h3 class="hasAnchor">
+<a href="#a-note-on-growth-rates" class="anchor"></a>A note on growth rates</h3>
+<p>The package currently also contains a function to estimate growth rates from OD data. This is included only for convenience and no guarantees can be made for correctness! Generally we recommend using a dedicated package such as growthcurver to estimate growth rates.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">'../data/growth_example.rda'</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">growth_example</span>
+<span class="co">#&gt; # A tibble: 38 x 3</span>
+<span class="co">#&gt;    Time_h Donor_OD Recipient_OD</span>
+<span class="co">#&gt;     &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  0      0.00745       0.0140</span>
+<span class="co">#&gt;  2  0.324  0.0176        0.0170</span>
+<span class="co">#&gt;  3  0.649  0.0281        0.0187</span>
+<span class="co">#&gt;  4  0.973  0.0408        0.0279</span>
+<span class="co">#&gt;  5  1.30   0.0622        0.0406</span>
+<span class="co">#&gt;  6  1.62   0.0928        0.0694</span>
+<span class="co">#&gt;  7  1.95   0.120         0.0922</span>
+<span class="co">#&gt;  8  2.27   0.148         0.110 </span>
+<span class="co">#&gt;  9  2.59   0.163         0.128 </span>
+<span class="co">#&gt; 10  2.92   0.167         0.133 </span>
+<span class="co">#&gt; # … with 28 more rows</span>
 
 <span class="va">growth_df</span> <span class="op">&lt;-</span> <span class="va">growth_example</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Time_h'</span>, <span class="st">'Donor_OD'</span><span class="op">)</span><span class="op">]</span>
 

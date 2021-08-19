@@ -32,13 +32,13 @@ Note: the Conjugator package is not yet listed on CRAN, so the default install.p
 This package has two main functions:
 (i) Estimate conjugation rates from experimental data
 ```{r}
-load('../data/DRT_example.rda')
+# the DRT_example is included with the package
 estimate_conj_rate(DRT_example, "ASM")
 ```
 (ii) Estimate the critical times
 ```{r}
-load('../data/DRT_example.rda')
-load('../data/TRT_example.rda')
+# DRT and TRT refer to the first and second conjugation experiment
+# TRT_example is also included in the package
 estimate_crit_time(DRT_example, TRT_example, tol_factor = 10)
 ```
 

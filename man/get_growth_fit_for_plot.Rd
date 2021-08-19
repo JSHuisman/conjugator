@@ -8,7 +8,13 @@
 the fit of the growth data, for comparison against the
 OD data.}
 \usage{
-get_growth_fit_for_plot(OD_data, t_col = "time", growth_fit, verbose = T)
+get_growth_fit_for_plot(
+  OD_data,
+  t_col = "time",
+  growth_fit,
+  blank_tf = T,
+  verbose = T
+)
 }
 \arguments{
 \item{OD_data}{Dataframe of OD data. Expects a column for the time (t_col),
@@ -19,6 +25,8 @@ by their column name).}
 
 \item{growth_fit}{Output of estimate_growth_rate for the OD_data;
 requires columns name, carrying_cap, growth_rate, N0, t_min, t_stat}
+
+\item{blank_tf}{Boolean. Should a blank value be subtracted?}
 
 \item{verbose}{Boolean. Should warnings be returned?}
 }

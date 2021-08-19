@@ -81,7 +81,7 @@ OD data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">conjugator</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -135,7 +135,13 @@ the fit of the growth data, for comparison against the
 OD data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_growth_fit_for_plot</span><span class='op'>(</span><span class='va'>OD_data</span>, t_col <span class='op'>=</span> <span class='st'>"time"</span>, <span class='va'>growth_fit</span>, verbose <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_growth_fit_for_plot</span><span class='op'>(</span>
+  <span class='va'>OD_data</span>,
+  t_col <span class='op'>=</span> <span class='st'>"time"</span>,
+  <span class='va'>growth_fit</span>,
+  blank_tf <span class='op'>=</span> <span class='cn'>T</span>,
+  verbose <span class='op'>=</span> <span class='cn'>T</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,6 +160,10 @@ by their column name).</p></td>
       <th>growth_fit</th>
       <td><p>Output of estimate_growth_rate for the OD_data;
 requires columns name, carrying_cap, growth_rate, N0, t_min, t_stat</p></td>
+    </tr>
+    <tr>
+      <th>blank_tf</th>
+      <td><p>Boolean. Should a blank value be subtracted?</p></td>
     </tr>
     <tr>
       <th>verbose</th>
