@@ -39,6 +39,12 @@ It can also subtract an estimated value for blank wells (taking the minimum
 across all readings), and takes into account measurements only
 after t_start.
 }
+\details{
+*Note*: this function is not as thoroughly tested as those
+to estimate conjugation rates, and is primarily included
+for convenience. We generally recommend
+using a dedicated package to estimate growth rates.
+}
 \examples{
 estimate_growth_rate(growth_example, t_start = 1, t_col = 'Time_h')
 }

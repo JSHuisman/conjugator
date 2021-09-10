@@ -13,6 +13,11 @@
 #' across all readings), and takes into account measurements only
 #' after t_start.
 #'
+#' *Note*: this function is not as thoroughly tested as those
+#' to estimate conjugation rates, and is primarily included
+#' for convenience. We generally recommend
+#' using a dedicated package to estimate growth rates.
+#'
 #' @param OD_data Dataframe of OD data. Expects a column for the time (t_col),
 #' and will interpret all other columns as OD data for different samples (identified
 #' by their column name).

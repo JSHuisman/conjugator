@@ -11,7 +11,8 @@ scan_crit_time(
   DRT,
   tol_factor = 10,
   id_cols = c("ID"),
-  mult_seq = 10^seq(-2, 5, 1)
+  mult_seq = 10^seq(-2, 5, 1),
+  verbose = T
 )
 }
 \arguments{
@@ -36,6 +37,8 @@ names that should be treated as identifiers (will be returned in output).}
 
 \item{mult_seq}{Vector. Describes the multiplication factors
 to take into account for gamma.T.}
+
+\item{verbose}{Boolean. Should warnings be returned?}
 }
 \value{
 Dataframe of estimated critical times for the input DRT

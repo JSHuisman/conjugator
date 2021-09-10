@@ -16,7 +16,8 @@ The quickest way to install Conjugator is to use the devtools package:
 install.packages("devtools")
 # Then use devtools to install the conjugator package from github
 library(devtools)
-install_github("JSHuisman/conjugator", build_vignettes = TRUE)
+# Use the option build_vignettes = TRUE to include browsable vignettes
+install_github("JSHuisman/conjugator")
 ```
 The package devtools generally requires the user to have a working development environment, which includes [Rtools](https://cran.r-project.org/bin/windows/Rtools/) on Windows, and Xcode on Mac.
 

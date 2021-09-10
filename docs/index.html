@@ -86,7 +86,8 @@
 install.packages("devtools")
 # Then use devtools to install the conjugator package from github
 library(devtools)
-install_github("JSHuisman/conjugator", build_vignettes = TRUE)</a></code></pre>
+# Use the option build_vignettes = TRUE to include browsable vignettes
+install_github("JSHuisman/conjugator")</a></code></pre>
 <p>The package devtools generally requires the user to have a working development environment, which includes <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> on Windows, and Xcode on Mac.</p>
 <p>Alternatively, you can also download the Conjugator package locally (select the tar.gz file and save it to your computer) and then run the following:</p>
 <pre class="{r}"><code><a href="https://rdrr.io/r/utils/install.packages.html"># path_to_file indicates where you saved the tar.gz file + full file name and extension

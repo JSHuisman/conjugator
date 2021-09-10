@@ -302,10 +302,11 @@ estimate_crit_time <- function(DRT, TRT = NULL, tol_factor = 10, id_cols = c('ID
 #' conjugation rates.
 #' @aliases scan_crit time_scan crittime_scan
 #' @export
-scan_crit_time <- function(DRT, tol_factor = 10, id_cols = c('ID'), mult_seq = 10**seq(-2, 5, 1)){
+scan_crit_time <- function(DRT, tol_factor = 10, id_cols = c('ID'), mult_seq = 10**seq(-2, 5, 1),
+                           verbose = T){
 
   if (!'gamma.D' %in% colnames(DRT)){
-    ASM_estimate = try(.estimate_ASM(DRT))
+    ASM_estimate = try(.estimate_ASM(DRT, verbose = verbose))
     if ('try-error' %in% class(ASM_estimate)){
       stop("No gamma.D estimate was present in the input data and none could be estimated.")
     } else {
@@ -317,7 +318,8 @@ scan_crit_time <- function(DRT, tol_factor = 10, id_cols = c('ID'), mult_seq = 1
                                             'mult_factor' = mult_factor)}
   full_data <- do.call("rbind", lapply(mult_seq, add_gammaT))
 
-  tcrit_df <- estimate_crit_time(full_data, TRT = NULL, tol_factor, id_cols = c(id_cols, 'mult_factor'))
+  tcrit_df <- estimate_crit_time(full_data, TRT = NULL, tol_factor, id_cols = c(id_cols, 'mult_factor'),
+                                 verbose = verbose)
 
   return(tcrit_df)
 }
